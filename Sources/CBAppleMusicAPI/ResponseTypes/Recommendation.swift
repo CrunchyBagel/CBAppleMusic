@@ -10,7 +10,7 @@ import Foundation
 extension AppleMusicAPI {
     /// https://developer.apple.com/documentation/applemusicapi/recommendation
     public struct Recommendation: Codable {
-        enum RecommendationType: String, Codable {
+        public enum RecommendationType: String, Codable {
             case personalRecommendation = "personal-recommendation"
         }
 
@@ -30,8 +30,8 @@ extension AppleMusicAPI {
 //
 //            }
 
-            let href: String
-            let id: String
+            public let href: String
+            public let id: String
 //            let attributes: Attributes
         }
 
@@ -45,9 +45,11 @@ extension AppleMusicAPI {
         }
 
         public let id: String
-        let type: RecommendationType
+        public let type: RecommendationType
         public let href: String
         public let attributes: Attributes?
         public let relationships: Relationships?
     }
 }
+
+extension AppleMusicAPI.Recommendation: Identifiable { }

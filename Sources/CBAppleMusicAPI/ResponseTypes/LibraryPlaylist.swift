@@ -18,6 +18,8 @@ extension AppleMusicAPI {
     }
 }
 
+extension AppleMusicAPI.LibraryPlaylist: Identifiable { }
+
 extension AppleMusicAPI.LibraryPlaylist {
     public struct Attributes: Codable {
         public struct Description: Codable {
@@ -36,7 +38,7 @@ extension AppleMusicAPI.LibraryPlaylist {
         public let tracks: TracksRelationship?
     }
 
-    public struct CatalogRelationship: Codable, Hashable {
+    public struct CatalogRelationship: Codable {
         public let href: String?
         public let next: String?
         public let data: [AppleMusicAPI.Playlist]

@@ -13,8 +13,9 @@ extension AppleMusicAPI {
         public let href: String
         public let attributes: Attributes
     }
-
 }
+
+extension AppleMusicAPI.Song: Identifiable { }
 
 extension AppleMusicAPI.Song {
     public struct Attributes: Codable, Hashable {

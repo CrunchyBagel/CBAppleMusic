@@ -17,6 +17,8 @@ extension AppleMusicAPI {
     }
 }
 
+extension AppleMusicAPI.Album: Identifiable { }
+
 extension AppleMusicAPI.Album {
     public struct Attributes: Codable {
         public let artistName: String

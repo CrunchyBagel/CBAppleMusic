@@ -8,7 +8,7 @@
 import Foundation
 
 extension AppleMusicAPI {
-    public struct Playlist: AppleMusicAPIResource, Hashable {
+    public struct Playlist: AppleMusicAPIResource {
         static public let type: ResourceType = .playlists
 
         public let id: String
@@ -20,19 +20,21 @@ extension AppleMusicAPI {
     }
 }
 
+extension AppleMusicAPI.Playlist: Identifiable { }
+
 extension AppleMusicAPI.Playlist {
-    public struct Relationships: Codable, Hashable {
-        let tracks: AppleMusicAPI.TrackRelationship?
+    public struct Relationships: Codable {
+        public let tracks: AppleMusicAPI.TrackRelationship?
     }
 
     public struct EditorialNotes: Codable, Hashable {
-        let short: String?
-        let standard: String?
+        public let short: String?
+        public let standard: String?
     }
 
     public struct PlayParams: Codable, Hashable {
-        let id: String
-        let kind: String
+        public let id: String
+        public let kind: String
     }
 
     public enum PlaylistType: String, Codable, Hashable {
@@ -42,7 +44,7 @@ extension AppleMusicAPI.Playlist {
         case personalMix = "personal-mix"
     }
 
-    public struct Attributes: Codable, Hashable {
+    public struct Attributes: Codable {
         public let artwork: AppleMusicAPI.Artwork?
         public let curatorName: String?
         public let description: EditorialNotes?
