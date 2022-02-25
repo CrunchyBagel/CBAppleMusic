@@ -50,3 +50,27 @@ extension AppleMusicAPI.LibraryPlaylist {
         public let data: [AppleMusicAPI.AnyResource]
     }
 }
+
+extension AppleMusicAPI.LibraryPlaylist {
+    public func songs(excludeRating: AppleMusicAPI.ContentRating?) -> [AppleMusicAPI.LibrarySong] {
+
+        guard let data = self.relationships?.tracks?.data else {
+            return []
+        }
+
+        let songs = data.compactMap { $0.data as? AppleMusicAPI.LibrarySong }
+
+        guard let excludeRating = excludeRating else {
+            return songs
+        }
+
+        return songs.filter { song -> Bool in
+            if let r = song.attributes.contentRating {
+                return r != excludeRating
+            }
+            else {
+                return true
+            }
+        }
+    }
+}
