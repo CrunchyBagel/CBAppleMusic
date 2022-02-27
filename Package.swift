@@ -5,9 +5,9 @@ import PackageDescription
 let package = Package(
     name: "CBAppleMusicAPI",
     platforms: [
-        .iOS(.v11),
+        .iOS(.v10),
         .macOS(.v10_15),
-        .tvOS(.v11),
+        .tvOS(.v10),
         .watchOS(.v5)
     ],
     products: [
