@@ -11,14 +11,19 @@ import UIKit
 
 extension AppleMusicAPI {
     public struct Artwork: Codable, Hashable {
-        let url: String? // URL string with placeholders so not necessarily parseable
-        let width: Int?
-        let height: Int?
+        public let url: String? // URL string with placeholders so not necessarily parseable
+        public let width: Int?
+        public let height: Int?
     }
 }
 
 #if canImport(UIKit)
 extension AppleMusicAPI.Artwork {
+    public struct Identifiers {
+        public static let widthPlaceholder = "{w}"
+        public static let heightPlaceholder = "{h}"
+    }
+
     public func url(size: CGSize, scale: CGFloat) -> URL? {
         guard let url = self.url else {
             return nil
@@ -28,9 +33,9 @@ extension AppleMusicAPI.Artwork {
 
         // {w}x{h}cc.jpeg
 
-        var urlString = url.replacingOccurrences(of: "{w}", with: String(format: "%01.0f", totalSize.width))
+        var urlString = url.replacingOccurrences(of: Identifiers.widthPlaceholder, with: String(format: "%01.0f", totalSize.width))
 
-        urlString = urlString.replacingOccurrences(of: "{h}", with: String(format: "%01.0f", totalSize.height))
+        urlString = urlString.replacingOccurrences(of: Identifiers.heightPlaceholder, with: String(format: "%01.0f", totalSize.height))
 
         return URL(string: urlString)
     }

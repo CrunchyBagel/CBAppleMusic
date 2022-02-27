@@ -6,21 +6,19 @@
 
 import Foundation
 import CoreGraphics
+import OSLog
 
 public class AppleMusicAPI {
-    public let developerToken: String
-    public let countryCode: String
+    public let apiKey: APIKey
+    public let countryCode: CountryCode
 
-    public enum Error: LocalizedError {
-        case invalidRequestData
-        case invalidUserToken
-        case invalidUrl
-        case invalidMethod
-        case invalidResponse
-        case invalidResponseCode(Int)
-        case missingKey(String)
+    public init(apiKey: APIKey, countryCode: CountryCode) {
+        self.apiKey = apiKey
+        self.countryCode = countryCode
     }
+}
 
+extension AppleMusicAPI {
     enum ApiCall {
         case charts
         case search
@@ -28,34 +26,34 @@ public class AppleMusicAPI {
         case recommendations
         case libraryPlaylists
 
-        var urlFragment: String {
+        func urlFragment(countryCode: CountryCode) -> String {
             switch self {
-            case .charts: return "catalog/CC/charts"
-            case .search: return "catalog/CC/search"
-            case .playlists: return "catalog/CC/playlists"
+            case .charts: return "catalog/\(countryCode.code)/charts"
+            case .search: return "catalog/\(countryCode.code)/search"
+            case .playlists: return "catalog/\(countryCode.code)/playlists"
             case .recommendations: return "me/recommendations"
             case .libraryPlaylists: return "me/library/playlists"
             }
         }
-    }
 
-    public init(developerToken: String, countryCode: String) {
-        self.developerToken = developerToken
-        self.countryCode = countryCode
+        func urlComponents(countryCode: CountryCode, pathComponents: [String] = []) -> URLComponents {
+            var components = URLComponents()
+            components.scheme = "https"
+            components.host = "api.music.apple.com"
+
+            let allPathComponents: [String] = [
+                "v1",
+                urlFragment(countryCode: countryCode)
+            ] + pathComponents
+
+            components.path = "/" + allPathComponents.joined(separator: "/")
+
+            return components
+        }
     }
 
     func baseComponents(apiCall: ApiCall, pathComponents: [String] = []) -> URLComponents {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "api.music.apple.com"
-
-        let fragment = apiCall.urlFragment.replacingOccurrences(of: "/CC/", with: "/\(self.countryCode)/")
-
-        let parts: [String] = [ "v1", fragment ] + pathComponents
-
-        components.path = "/" + parts.joined(separator: "/")
-
-        return components
+        apiCall.urlComponents(countryCode: self.countryCode, pathComponents: pathComponents)
     }
 
     func performRequest<T: Decodable>(type: T.Type, request: URLRequest, completion: @escaping (Result<T, Swift.Error>) -> Void) {
@@ -83,7 +81,7 @@ public class AppleMusicAPI {
                     throw Error.invalidResponse
                 }
 
-                let decoder = Self.createDecoder()
+                let decoder = Self.createResponseDecoder()
 
                 let decoded = try decoder.decode(T.self, from: data)
                 completion(.success(decoded))
@@ -97,7 +95,7 @@ public class AppleMusicAPI {
         task.resume()
     }
 
-    public static func createDecoder() -> JSONDecoder {
+    public static func createResponseDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
 
@@ -111,7 +109,7 @@ public class AppleMusicAPI {
         }
 
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(self.developerToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(self.apiKey.key)", forHTTPHeaderField: "Authorization")
 
         if let userToken = userToken {
             request.setValue(userToken, forHTTPHeaderField: "Music-User-Token")
@@ -140,5 +138,4 @@ public class AppleMusicAPI {
         }
     }
 }
-
 
