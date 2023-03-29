@@ -22,7 +22,7 @@ extension AppleMusicAPI.Song {
         public let albumName: String
         public let artistName: String
         public let contentRating: AppleMusicAPI.ContentRating?
-        public let artwork: AppleMusicAPI.Artwork
+        public let artwork: AppleMusicAPI.Artwork?
         public let durationInMillis: Int
         public let name: String
     }

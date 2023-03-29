@@ -24,7 +24,7 @@ extension AppleMusicAPI.LibrarySong {
     public struct Attributes: Codable, Hashable {
         public let albumName: String?
         public let artistName: String
-        public let artwork: AppleMusicAPI.Artwork
+        public let artwork: AppleMusicAPI.Artwork?
         public let contentRating: AppleMusicAPI.ContentRating?
         public let durationInMillis: Int
         public let name: String
