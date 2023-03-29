@@ -28,7 +28,7 @@ extension AppleMusicAPI.LibrarySong {
         public let contentRating: AppleMusicAPI.ContentRating?
         public let durationInMillis: Int
         public let name: String
-        public let playParams: PlayParams?
+        public let playParams: AppleMusicAPI.LibrarySong.PlayParams?
     }
 
     public struct Relationships: Codable {
@@ -46,8 +46,8 @@ extension AppleMusicAPI.LibrarySong {
     public struct PlayParams: Codable, Hashable {
         public let id: String
         public let kind: String
-        public let isLibrary: Bool
-        public let isReporting: Bool
+        public let isLibrary: Bool?
+        public let isReporting: Bool?
         public let catalogId: String?
         public let reportingId: String?
     }
