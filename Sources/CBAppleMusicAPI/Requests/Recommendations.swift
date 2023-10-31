@@ -8,6 +8,7 @@
 import Foundation
 
 extension AppleMusicAPI {
+    @available(*, renamed: "myRecommendations(userToken:type:limit:)")
     public func myRecommendations(userToken: String, type: AppleMusicAPI.ResourceType?, limit: Int?, completion: @escaping (Result<[AppleMusicAPI.Recommendation], Swift.Error>) -> Void) {
         var components = self.baseComponents(apiCall: .recommendations)
 
@@ -35,5 +36,15 @@ extension AppleMusicAPI {
             }
         }
     }
+
+    @available(iOS 13, watchOS 6, tvOS 13, *)
+    public func myRecommendations(userToken: String, type: AppleMusicAPI.ResourceType?, limit: Int?) async throws -> [AppleMusicAPI.Recommendation] {
+        try await withCheckedThrowingContinuation { continuation in
+            myRecommendations(userToken: userToken, type: type, limit: limit) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
 }
 

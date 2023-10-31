@@ -8,6 +8,7 @@
 import Foundation
 
 extension AppleMusicAPI {
+    @available(*, renamed: "searchEditorialPlaylists(term:)")
     public func searchEditorialPlaylists(term: String, completion: @escaping (Result<[AppleMusicAPI.Playlist], Swift.Error>) -> Void) {
 
         self.searchPlaylists(term: term) { result in
@@ -23,6 +24,17 @@ extension AppleMusicAPI {
         }
     }
 
+    @available(iOS 13, watchOS 6, tvOS 13, *)
+    public func searchEditorialPlaylists(term: String) async throws -> [AppleMusicAPI.Playlist] {
+        try await withCheckedThrowingContinuation { continuation in
+            searchEditorialPlaylists(term: term) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
+
+    @available(*, renamed: "searchPlaylists(term:)")
     public func searchPlaylists(term: String, completion: @escaping (Result<[AppleMusicAPI.Playlist], Swift.Error>) -> Void) {
         var components = self.baseComponents(apiCall: .search)
 
@@ -46,4 +58,14 @@ extension AppleMusicAPI {
         }
 
     }
+    
+    @available(iOS 13, watchOS 6, tvOS 13, *)
+    public func searchPlaylists(term: String) async throws -> [AppleMusicAPI.Playlist] {
+        try await withCheckedThrowingContinuation { continuation in
+            searchPlaylists(term: term) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
 }

@@ -8,6 +8,7 @@
 import Foundation
 
 extension AppleMusicAPI {
+    @available(*, renamed: "requestPlaylistInfo(playlists:)")
     public func requestPlaylistInfo(playlists: [AppleMusicAPI.Playlist], completion: @escaping (Result<[AppleMusicAPI.Playlist], Swift.Error>) -> Void) {
 
         guard playlists.count > 0 else {
@@ -30,4 +31,14 @@ extension AppleMusicAPI {
             }
         }
     }
+    
+    @available(iOS 13, watchOS 6, tvOS 13, *)
+    public func requestPlaylistInfo(playlists: [AppleMusicAPI.Playlist]) async throws -> [AppleMusicAPI.Playlist] {
+        try await withCheckedThrowingContinuation { continuation in
+            requestPlaylistInfo(playlists: playlists) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
 }

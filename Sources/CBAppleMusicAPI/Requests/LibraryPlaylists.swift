@@ -13,6 +13,7 @@ extension AppleMusicAPI {
         case tracks = "tracks"
     }
 
+    @available(*, renamed: "myPlaylists(userToken:)")
     public func myPlaylists(userToken: String, completion: @escaping (Result<[AppleMusicAPI.LibraryPlaylist], Swift.Error>) -> Void) {
 
         let components = self.baseComponents(apiCall: .libraryPlaylists)
@@ -28,7 +29,18 @@ extension AppleMusicAPI {
             }
         }
     }
+    
+    @available(iOS 13, watchOS 6, tvOS 13, *)
+    public func myPlaylists(userToken: String) async throws -> [AppleMusicAPI.LibraryPlaylist] {
+        try await withCheckedThrowingContinuation { continuation in
+            myPlaylists(userToken: userToken) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
 
+    @available(*, renamed: "libraryPlaylistInfo(userToken:playlist:include:)")
     public func libraryPlaylistInfo(userToken: String, playlist: AppleMusicAPI.LibraryPlaylist, include: Set<IncludeRelationships>, completion: @escaping (Result<AppleMusicAPI.LibraryPlaylist, Swift.Error>) -> Void) {
 
         var components = self.baseComponents(apiCall: .libraryPlaylists, pathComponents: [playlist.id])
@@ -45,4 +57,14 @@ extension AppleMusicAPI {
             }
         }
     }
+    
+    @available(iOS 13, watchOS 6, tvOS 13, *)
+    public func libraryPlaylistInfo(userToken: String, playlist: AppleMusicAPI.LibraryPlaylist, include: Set<IncludeRelationships>) async throws -> AppleMusicAPI.LibraryPlaylist {
+        try await withCheckedThrowingContinuation { continuation in
+            libraryPlaylistInfo(userToken: userToken, playlist: playlist, include: include) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
 }
