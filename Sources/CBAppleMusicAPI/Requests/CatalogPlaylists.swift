@@ -9,7 +9,10 @@ import Foundation
 
 extension AppleMusicAPI {
     @available(*, renamed: "requestPlaylistInfo(playlists:)")
-    public func requestPlaylistInfo(playlists: [AppleMusicAPI.Playlist], completion: @escaping (Result<[AppleMusicAPI.Playlist], Swift.Error>) -> Void) {
+    public func requestPlaylistInfo(
+        playlists: [AppleMusicAPI.Playlist],
+        completion: @escaping @Sendable (Result<[AppleMusicAPI.Playlist], Swift.Error>) -> Void
+    ) {
 
         guard playlists.count > 0 else {
             completion(.failure(Error.invalidRequestData))
@@ -21,7 +24,11 @@ extension AppleMusicAPI {
         var components = self.baseComponents(apiCall: .playlists)
         components.queryItems = idParams
 
-        self.performRequest(type: PlaylistResponse.self, urlComponents: components, userToken: nil) { result in
+        self.performRequest(
+            type: PlaylistResponse.self,
+            urlComponents: components,
+            userToken: nil
+        ) { result in
             switch result {
             case .success(let response):
                 completion(.success(response.data))

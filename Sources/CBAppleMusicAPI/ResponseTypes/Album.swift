@@ -20,7 +20,7 @@ extension AppleMusicAPI {
 extension AppleMusicAPI.Album: Identifiable { }
 
 extension AppleMusicAPI.Album {
-    public struct Attributes: Codable {
+    public struct Attributes: Codable, Sendable {
         public let artistName: String
         public let name: String
         public let artwork: AppleMusicAPI.Artwork?

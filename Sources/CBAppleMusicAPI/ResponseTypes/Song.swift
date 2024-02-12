@@ -8,7 +8,7 @@
 import Foundation
 
 extension AppleMusicAPI {
-    public struct Song: Codable, Hashable {
+    public struct Song: Codable, Hashable, Sendable {
         public let id: String
         public let href: String
         public let attributes: Attributes
@@ -18,7 +18,7 @@ extension AppleMusicAPI {
 extension AppleMusicAPI.Song: Identifiable { }
 
 extension AppleMusicAPI.Song {
-    public struct Attributes: Codable, Hashable {
+    public struct Attributes: Codable, Hashable, Sendable {
         public let albumName: String
         public let artistName: String
         public let contentRating: AppleMusicAPI.ContentRating?

@@ -10,7 +10,7 @@ import CoreGraphics
 
 
 extension AppleMusicAPI {
-    public enum ContentRating: String, Codable, Hashable {
+    public enum ContentRating: String, Codable, Hashable, Sendable {
         case clean
         case explicit
     }

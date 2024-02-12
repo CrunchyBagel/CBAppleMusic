@@ -9,7 +9,10 @@ import Foundation
 
 extension AppleMusicAPI {
     @available(*, renamed: "searchEditorialPlaylists(term:)")
-    public func searchEditorialPlaylists(term: String, completion: @escaping (Result<[AppleMusicAPI.Playlist], Swift.Error>) -> Void) {
+    public func searchEditorialPlaylists(
+        term: String,
+        completion: @escaping @Sendable (Result<[AppleMusicAPI.Playlist], Swift.Error>) -> Void
+    ) {
 
         self.searchPlaylists(term: term) { result in
 
@@ -35,7 +38,10 @@ extension AppleMusicAPI {
     
 
     @available(*, renamed: "searchPlaylists(term:)")
-    public func searchPlaylists(term: String, completion: @escaping (Result<[AppleMusicAPI.Playlist], Swift.Error>) -> Void) {
+    public func searchPlaylists(
+        term: String,
+        completion: @escaping @Sendable (Result<[AppleMusicAPI.Playlist], Swift.Error>) -> Void
+    ) {
         var components = self.baseComponents(apiCall: .search)
 
         components.queryItems = [

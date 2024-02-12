@@ -21,8 +21,8 @@ extension AppleMusicAPI {
 extension AppleMusicAPI.LibraryPlaylist: Identifiable { }
 
 extension AppleMusicAPI.LibraryPlaylist {
-    public struct Attributes: Codable {
-        public struct Description: Codable {
+    public struct Attributes: Codable, Sendable {
+        public struct Description: Codable, Sendable {
             let standard: String
         }
 
@@ -33,18 +33,18 @@ extension AppleMusicAPI.LibraryPlaylist {
         public let name: String?
     }
 
-    public struct Relationships: Codable {
+    public struct Relationships: Codable, Sendable {
         public let catalog: CatalogRelationship?
         public let tracks: TracksRelationship?
     }
 
-    public struct CatalogRelationship: Codable {
+    public struct CatalogRelationship: Codable, Sendable {
         public let href: String?
         public let next: String?
         public let data: [AppleMusicAPI.Playlist]
     }
 
-    public struct TracksRelationship: Codable {
+    public struct TracksRelationship: Codable, Sendable {
         public let href: String?
         public let next: String?
         public let data: [AppleMusicAPI.AnyResource]

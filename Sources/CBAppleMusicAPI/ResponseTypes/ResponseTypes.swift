@@ -20,7 +20,7 @@ extension AppleMusicAPI {
     }
 
     /// https://developer.apple.com/documentation/applemusicapi/playlistresponse
-    struct PlaylistResponse: Codable {
+    struct PlaylistResponse: Codable, Sendable {
         let data: [Playlist]
     }
 

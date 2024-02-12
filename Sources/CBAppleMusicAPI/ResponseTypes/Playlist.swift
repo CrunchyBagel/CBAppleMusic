@@ -20,31 +20,33 @@ extension AppleMusicAPI {
     }
 }
 
+extension AppleMusicAPI.Playlist: Sendable { }
+
 extension AppleMusicAPI.Playlist: Identifiable { }
 
 extension AppleMusicAPI.Playlist {
-    public struct Relationships: Codable {
+    public struct Relationships: Codable, Sendable {
         public let tracks: AppleMusicAPI.TrackRelationship?
     }
 
-    public struct EditorialNotes: Codable, Hashable {
+    public struct EditorialNotes: Codable, Hashable, Sendable {
         public let short: String?
         public let standard: String?
     }
 
-    public struct PlayParams: Codable, Hashable {
+    public struct PlayParams: Codable, Hashable, Sendable {
         public let id: String
         public let kind: String
     }
 
-    public enum PlaylistType: String, Codable, Hashable {
+    public enum PlaylistType: String, Codable, Hashable, Sendable {
         case userShared = "user-shared"
         case editorial = "editorial"
         case external = "external"
         case personalMix = "personal-mix"
     }
 
-    public struct Attributes: Codable {
+    public struct Attributes: Codable, Sendable {
         public let artwork: AppleMusicAPI.Artwork?
         public let curatorName: String?
         public let description: EditorialNotes?

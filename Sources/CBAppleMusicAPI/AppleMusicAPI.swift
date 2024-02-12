@@ -56,7 +56,11 @@ extension AppleMusicAPI {
         apiCall.urlComponents(countryCode: self.countryCode, pathComponents: pathComponents)
     }
 
-    func performRequest<T: Decodable>(type: T.Type, request: URLRequest, completion: @escaping (Result<T, Swift.Error>) -> Void) {
+    func performRequest<T: Decodable & Sendable>(
+        type: T.Type,
+        request: URLRequest,
+        completion: @escaping @Sendable (Result<T, Swift.Error>) -> Void
+    ) {
 
         let session = URLSession.shared
 
@@ -102,7 +106,12 @@ extension AppleMusicAPI {
         return decoder
     }
 
-    func performRequest<T: Decodable>(type: T.Type, urlComponents: URLComponents, userToken: String?, completion: @escaping (Result<T, Swift.Error>) -> Void) {
+    func performRequest<T: Decodable & Sendable>(
+        type: T.Type,
+        urlComponents: URLComponents,
+        userToken: String?,
+        completion: @escaping @Sendable (Result<T, Swift.Error>) -> Void
+    ) {
         guard let url = urlComponents.url else {
             completion(.failure(Error.invalidUrl))
             return

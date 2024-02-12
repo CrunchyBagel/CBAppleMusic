@@ -14,11 +14,18 @@ extension AppleMusicAPI {
     }
 
     @available(*, renamed: "myPlaylists(userToken:)")
-    public func myPlaylists(userToken: String, completion: @escaping (Result<[AppleMusicAPI.LibraryPlaylist], Swift.Error>) -> Void) {
+    public func myPlaylists(
+        userToken: String,
+        completion: @escaping @Sendable (Result<[AppleMusicAPI.LibraryPlaylist], Swift.Error>) -> Void
+    ) {
 
         let components = self.baseComponents(apiCall: .libraryPlaylists)
 
-        self.performRequest(type: LibraryPlaylistResponse.self, urlComponents: components, userToken: userToken) { result in
+        self.performRequest(
+            type: LibraryPlaylistResponse.self,
+            urlComponents: components,
+            userToken: userToken
+        ) { result in
 
             switch result {
             case .failure(let error):
@@ -41,12 +48,21 @@ extension AppleMusicAPI {
     
 
     @available(*, renamed: "libraryPlaylistInfo(userToken:playlist:include:)")
-    public func libraryPlaylistInfo(userToken: String, playlist: AppleMusicAPI.LibraryPlaylist, include: Set<IncludeRelationships>, completion: @escaping (Result<AppleMusicAPI.LibraryPlaylist, Swift.Error>) -> Void) {
+    public func libraryPlaylistInfo(
+        userToken: String,
+        playlist: AppleMusicAPI.LibraryPlaylist,
+        include: Set<IncludeRelationships>,
+        completion: @escaping @Sendable (Result<AppleMusicAPI.LibraryPlaylist, Swift.Error>) -> Void
+    ) {
 
         var components = self.baseComponents(apiCall: .libraryPlaylists, pathComponents: [playlist.id])
         components.queryItems = include.map { URLQueryItem(name: "include", value: $0.rawValue) }
 
-        self.performRequest(type: LibraryPlaylistResponse.self, urlComponents: components, userToken: userToken) { result in
+        self.performRequest(
+            type: LibraryPlaylistResponse.self,
+            urlComponents: components,
+            userToken: userToken
+        ) { result in
 
             switch result {
             case .failure(let error):

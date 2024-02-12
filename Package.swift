@@ -1,14 +1,14 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.8
 
 import PackageDescription
 
 let package = Package(
     name: "CBAppleMusicAPI",
     platforms: [
-        .iOS(.v10),
+        .iOS(.v12),
         .macOS(.v10_15),
-        .tvOS(.v10),
-        .watchOS(.v3)
+        .tvOS(.v12),
+        .watchOS(.v4)
     ],
     products: [
         .library(
@@ -19,7 +19,11 @@ let package = Package(
     targets: [
         .target(
             name: "CBAppleMusicAPI",
-            dependencies: []),
+            dependencies: [],
+            swiftSettings: [
+              .enableExperimentalFeature("StrictConcurrency")
+            ]
+        ),
         .testTarget(
             name: "CBAppleMusicAPITests",
             dependencies: [

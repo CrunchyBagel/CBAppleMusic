@@ -16,7 +16,7 @@ extension AppleMusicAPI {
 }
 
 extension AppleMusicAPI.Station {
-    public struct Attributes: Codable {
+    public struct Attributes: Codable, Sendable {
         public let name: String
         public let artwork: AppleMusicAPI.Artwork?
         public let url: URL?

@@ -10,7 +10,7 @@ import UIKit
 #endif
 
 extension AppleMusicAPI {
-    public struct Artwork: Codable, Hashable {
+    public struct Artwork: Codable, Hashable, Sendable {
         public let url: String? // URL string with placeholders so not necessarily parseable
         public let width: Int?
         public let height: Int?

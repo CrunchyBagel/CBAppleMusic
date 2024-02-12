@@ -9,7 +9,12 @@ import Foundation
 
 extension AppleMusicAPI {
     @available(*, renamed: "myRecommendations(userToken:type:limit:)")
-    public func myRecommendations(userToken: String, type: AppleMusicAPI.ResourceType?, limit: Int?, completion: @escaping (Result<[AppleMusicAPI.Recommendation], Swift.Error>) -> Void) {
+    public func myRecommendations(
+        userToken: String,
+        type: AppleMusicAPI.ResourceType?,
+        limit: Int?,
+        completion: @escaping @Sendable (Result<[AppleMusicAPI.Recommendation], Swift.Error>) -> Void
+    ) {
         var components = self.baseComponents(apiCall: .recommendations)
 
         var queryItems: [URLQueryItem] = []
@@ -26,7 +31,11 @@ extension AppleMusicAPI {
             components.queryItems = queryItems
         }
 
-        self.performRequest(type: RecommendationResponse.self, urlComponents: components, userToken: userToken) { result in
+        self.performRequest(
+            type: RecommendationResponse.self,
+            urlComponents: components,
+            userToken: userToken
+        ) { result in
 
             switch result {
             case .success(let response):

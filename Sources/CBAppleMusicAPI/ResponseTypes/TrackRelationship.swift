@@ -8,7 +8,7 @@
 import Foundation
 
 extension AppleMusicAPI {
-    public struct TrackRelationship: Codable {
+    public struct TrackRelationship: Codable, Sendable {
         let data: [Song]
     }
 }

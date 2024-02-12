@@ -7,13 +7,13 @@
 
 import Foundation
 
-public protocol AppleMusicAPIResource: Codable {
+public protocol AppleMusicAPIResource: Codable, Sendable {
     static var type: AppleMusicAPI.ResourceType { get }
 }
 
 /// From https://stackoverflow.com/a/44473156
 extension AppleMusicAPI {
-    public struct AnyResource: Codable {
+    public struct AnyResource: Codable, Sendable {
         public let data: AppleMusicAPIResource
 
         init(_ base: AppleMusicAPIResource) {

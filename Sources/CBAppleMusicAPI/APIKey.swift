@@ -19,6 +19,8 @@ extension AppleMusicAPI {
     }
 }
 
-extension AppleMusicAPI.APIKey: Codable {}
-
 extension AppleMusicAPI.APIKey: Hashable {}
+
+extension AppleMusicAPI.APIKey: Sendable {}
+
+extension AppleMusicAPI.APIKey: Codable {}

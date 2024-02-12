@@ -17,7 +17,7 @@ extension AppleMusicAPI {
 }
 
 extension AppleMusicAPI.LibraryAlbum {
-    public struct Attributes: Codable {
+    public struct Attributes: Codable, Sendable {
         public let artistName: String
         public let artwork: AppleMusicAPI.Artwork?
         public let contentRating: AppleMusicAPI.ContentRating?
