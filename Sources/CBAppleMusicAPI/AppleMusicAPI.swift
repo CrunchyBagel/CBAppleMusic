@@ -8,7 +8,7 @@ import Foundation
 import CoreGraphics
 import OSLog
 
-public class AppleMusicAPI {
+public final class AppleMusicAPI: Sendable {
     public let apiKey: APIKey
     public let countryCode: CountryCode
 
@@ -37,9 +37,7 @@ extension AppleMusicAPI {
         }
 
         func urlComponents(countryCode: CountryCode, pathComponents: [String] = []) -> URLComponents {
-            var components = URLComponents()
-            components.scheme = "https"
-            components.host = "api.music.apple.com"
+            var components = Self.baseComponents
 
             let allPathComponents: [String] = [
                 "v1",
@@ -50,10 +48,25 @@ extension AppleMusicAPI {
 
             return components
         }
+
+        static var baseComponents: URLComponents {
+            var components = URLComponents()
+            components.scheme = "https"
+            components.host = "api.music.apple.com"
+
+            return components
+        }
     }
 
     func baseComponents(apiCall: ApiCall, pathComponents: [String] = []) -> URLComponents {
         apiCall.urlComponents(countryCode: self.countryCode, pathComponents: pathComponents)
+    }
+
+    func components(nextURL: String) -> URLComponents {
+        var components = ApiCall.baseComponents
+        components.path = nextURL
+
+        return components
     }
 
     func performRequest<T: Decodable & Sendable>(
