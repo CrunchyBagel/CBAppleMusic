@@ -76,16 +76,20 @@ extension AppleMusicAPI {
     ) {
 
         let session = URLSession.shared
+        
+        os_log("AppleMusicAPI: %@ %@", request as CVarArg, String(describing: type.self))
 
         let task = session.dataTask(with: request) { data, response, error in
-            if let data = data, let str = String(data: data, encoding: .utf8) {
-                print(str)
-            }
+//            if let data = data, let str = String(data: data, encoding: .utf8) {
+//                print(str)
+//            }
 
             do {
                 guard let response = response as? HTTPURLResponse else {
                     throw Error.invalidResponse
                 }
+
+                os_log("AppleMusicAPI: statusCode=%@", response.statusCode as NSNumber)
 
                 switch response.statusCode {
                 case 200:
