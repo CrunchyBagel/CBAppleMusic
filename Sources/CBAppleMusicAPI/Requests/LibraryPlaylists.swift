@@ -49,6 +49,11 @@ extension AppleMusicAPI {
                 if let next = response.next {
                     let nextComponents = self.components(nextURL: next)
 
+                    guard let nextComponents else {
+                        completion(.success(playlists))
+                        return
+                    }
+
                     self.myPlaylists(
                         userToken: userToken,
                         components: nextComponents
