@@ -62,9 +62,16 @@ extension AppleMusicAPI {
         apiCall.urlComponents(countryCode: self.countryCode, pathComponents: pathComponents)
     }
 
-    func components(nextURL: String) -> URLComponents {
-        var components = ApiCall.baseComponents
-        components.path = nextURL
+    func components(nextURL: String) -> URLComponents? {
+        let components = URLComponents(string: nextURL)
+
+        guard var components else {
+            return nil
+        }
+
+        let baseComponents = ApiCall.baseComponents
+        components.scheme = baseComponents.scheme
+        components.host = baseComponents.host
 
         return components
     }
