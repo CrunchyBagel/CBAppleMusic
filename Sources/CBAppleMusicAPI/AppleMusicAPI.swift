@@ -8,7 +8,7 @@ import Foundation
 import CoreGraphics
 import OSLog
 
-public class AppleMusicAPI {
+public final class AppleMusicAPI: Sendable {
     public let apiKey: APIKey
     public let countryCode: CountryCode
 
@@ -37,9 +37,7 @@ extension AppleMusicAPI {
         }
 
         func urlComponents(countryCode: CountryCode, pathComponents: [String] = []) -> URLComponents {
-            var components = URLComponents()
-            components.scheme = "https"
-            components.host = "api.music.apple.com"
+            var components = Self.baseComponents
 
             let allPathComponents: [String] = [
                 "v1",
@@ -50,10 +48,32 @@ extension AppleMusicAPI {
 
             return components
         }
+
+        static var baseComponents: URLComponents {
+            var components = URLComponents()
+            components.scheme = "https"
+            components.host = "api.music.apple.com"
+
+            return components
+        }
     }
 
     func baseComponents(apiCall: ApiCall, pathComponents: [String] = []) -> URLComponents {
         apiCall.urlComponents(countryCode: self.countryCode, pathComponents: pathComponents)
+    }
+
+    func components(nextURL: String) -> URLComponents? {
+        let components = URLComponents(string: nextURL)
+
+        guard var components else {
+            return nil
+        }
+
+        let baseComponents = ApiCall.baseComponents
+        components.scheme = baseComponents.scheme
+        components.host = baseComponents.host
+
+        return components
     }
 
     func performRequest<T: Decodable & Sendable>(
@@ -63,16 +83,20 @@ extension AppleMusicAPI {
     ) {
 
         let session = URLSession.shared
+        
+        os_log("AppleMusicAPI: %@ %@", request as CVarArg, String(describing: type.self))
 
         let task = session.dataTask(with: request) { data, response, error in
-            if let data = data, let str = String(data: data, encoding: .utf8) {
-                print(str)
-            }
+//            if let data = data, let str = String(data: data, encoding: .utf8) {
+//                print(str)
+//            }
 
             do {
                 guard let response = response as? HTTPURLResponse else {
                     throw Error.invalidResponse
                 }
+
+                os_log("AppleMusicAPI: statusCode=%@", response.statusCode as NSNumber)
 
                 switch response.statusCode {
                 case 200:

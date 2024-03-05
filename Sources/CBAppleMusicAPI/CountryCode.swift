@@ -17,6 +17,8 @@ extension AppleMusicAPI {
     }
 }
 
+extension AppleMusicAPI.CountryCode: Sendable {}
+
 extension AppleMusicAPI.CountryCode: Codable {}
 
 extension AppleMusicAPI.CountryCode: Hashable {}

@@ -20,7 +20,19 @@ extension AppleMusicAPI {
     ) {
 
         let components = self.baseComponents(apiCall: .libraryPlaylists)
+        
+        myPlaylists(
+            userToken: userToken,
+            components: components,
+            completion: completion
+        )
+    }
 
+    private func myPlaylists(
+        userToken: String,
+        components: URLComponents,
+        completion: @escaping @Sendable (Result<[AppleMusicAPI.LibraryPlaylist], Swift.Error>) -> Void
+    ) {
         self.performRequest(
             type: LibraryPlaylistResponse.self,
             urlComponents: components,
@@ -32,7 +44,31 @@ extension AppleMusicAPI {
                 completion(.failure(error))
 
             case .success(let response):
-                completion(.success(response.data))
+                let playlists = response.data
+
+                if let next = response.next {
+                    let nextComponents = self.components(nextURL: next)
+
+                    guard let nextComponents else {
+                        completion(.success(playlists))
+                        return
+                    }
+
+                    self.myPlaylists(
+                        userToken: userToken,
+                        components: nextComponents
+                    ) { result in
+                            switch result {
+                            case .failure:
+                                completion(.success(playlists))
+                            case .success(let nextPlaylists):
+                                completion(.success(playlists + nextPlaylists))
+                            }
+                        }
+                }
+                else {
+                    completion(.success(playlists))
+                }
             }
         }
     }

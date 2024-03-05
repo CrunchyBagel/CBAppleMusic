@@ -29,8 +29,16 @@ extension AppleMusicAPI {
         let data: [Recommendation]
     }
 
-    /// https://developer.apple.com/documentation/applemusicapi/libraryplaylistresponse
+    //// https://developer.apple.com/documentation/applemusicapi/libraryplaylistsresponse
     struct LibraryPlaylistResponse: Codable {
+        let next: String?
         let data: [LibraryPlaylist]
+        let meta: Meta?
+    }
+}
+
+extension AppleMusicAPI.LibraryPlaylistResponse {
+    struct Meta: Codable, Sendable {
+        let total: Int
     }
 }
