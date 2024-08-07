@@ -1,4 +1,4 @@
-// swift-tools-version:5.8
+// swift-tools-version:6.0
 
 import PackageDescription
 
@@ -19,10 +19,7 @@ let package = Package(
     targets: [
         .target(
             name: "CBAppleMusicAPI",
-            dependencies: [],
-            swiftSettings: [
-              .enableExperimentalFeature("StrictConcurrency")
-            ]
+            dependencies: []
         ),
         .testTarget(
             name: "CBAppleMusicAPITests",
@@ -30,5 +27,6 @@ let package = Package(
                 "CBAppleMusicAPI"
             ]
         ),
-    ]
+    ],
+    swiftLanguageModes: [ .v6 ]
 )

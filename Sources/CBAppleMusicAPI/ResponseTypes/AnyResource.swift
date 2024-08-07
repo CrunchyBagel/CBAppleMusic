@@ -41,7 +41,7 @@ extension AppleMusicAPI {
 }
 
 extension AppleMusicAPI {
-    public enum ResourceType: String, Codable {
+    public enum ResourceType: String, Codable, Sendable {
         case albums
         case playlists
         case libraryAlbums
