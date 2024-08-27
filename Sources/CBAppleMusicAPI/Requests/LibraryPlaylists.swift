@@ -8,7 +8,7 @@
 import Foundation
 
 extension AppleMusicAPI {
-    public enum IncludeRelationships: String {
+    public enum IncludeRelationships: String, Sendable {
         case catalog = "catalog"
         case tracks = "tracks"
     }
